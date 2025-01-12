@@ -27,6 +27,12 @@ const CommentBox = () => {
         localStorage.setItem("comments", JSON.stringify(updatedComments)); // Update localStorage
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            addComment();
+        }
+    };
+
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10">
             <h1 className="text-4xl font-semibold text-center text-gray-800 mb-6">Leave Your Comment</h1>
@@ -36,6 +42,7 @@ const CommentBox = () => {
                     type="text"
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
+                    onKeyDown={handleKeyDown} // Add this handler
                     placeholder="Write a review"
                     className="w-full md:w-2/3 px-4 py-2 border-2 border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-300"
                 />
