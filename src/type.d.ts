@@ -1,8 +1,8 @@
 type Blog ={
     Title: string,
     Paragraph: string,
-    image: any,
+    image: image,
     slug: string,
-    block:String
+    block:string
 
 }
