@@ -4,34 +4,50 @@ import Image from "next/image";
 import { PortableText } from "next-sanity";
 import CommentBox from "@/app/Components/Comments";
 
-export default async function page({ params: { slug } }: { params: { slug: string } }) {
-  const query = `*[_type == 'blog' && slug.current == "${slug}"]{
-    Title , Paragraph , image , block 
-  }[0]`;
+export default async function Page({ params: { slug } }: { params: { slug: string } }) {
+  // Sanity query to fetch the blog by slug
+  const query = `*[_type == "blog" && slug.current == $slug][0]{
+    Title,
+    Paragraph,
+    image,
+    block
+  }`;
 
+  // Fetch the data
   const data = await client.fetch(query, { slug });
 
+  // Handle case where no data is returned
+  if (!data) {
+    return (
+      <div className="text-center py-24">
+        <h1 className="text-3xl font-bold text-red-500">Blog Post Not Found</h1>
+        <p className="text-gray-500 mt-4">The blog post you are looking for does not exist.</p>
+      </div>
+    );
+  }
+
+  // Render the page with data
   return (
-    <article className="mt-12 mb-24 px-2 2xl:px-12 flex flex-col gap-y-8 bg-lightGray dark:bg-darkGray rounded-lg shadow-md">
+    <article className="mt-12 mb-24 px-2 2xl:px-12 flex flex-col gap-y-8">
       {/* Blog Title */}
       <h1 className="text-2xl xs:text-3xl lg:text-5xl font-bold text-dark dark:text-light mb-6 text-center">
         {data.Title}
       </h1>
 
       {/* Featured Image */}
-      <div className="flex justify-center gap-6 mx-auto mb-8">
+      <div className="flex justify-center">
         <Image
           src={urlFor(data.image).url()}
-          alt="blog"
-          width={1200}
-          height={600}
-          className="rounded-lg shadow-xl"
+          alt={data.Title}
+          width={800}
+          height={500}
+          className="rounded-lg"
         />
       </div>
 
-      {/* Blog Summary Section */}
-      <section className="mt-8 bg-lightBlue dark:bg-darkBlue rounded-lg p-6">
-        <h2 className="text-2xl xs:text-3xl font-semibold text-accentDarkPrimary mb-4 text-center">
+      {/* Blog Summary */}
+      <section>
+        <h2 className="text-xl xs:text-2xl md:text-3xl font-bold uppercase text-accentDarkPrimary">
           Summary
         </h2>
         <p className="text-base md:text-xl leading-relaxed text-justify text-dark/80 dark:text-light/80">
@@ -40,20 +56,10 @@ export default async function page({ params: { slug } }: { params: { slug: strin
       </section>
 
       {/* Main Body of Blog */}
-      <section className="mt-12">
-        <h2 className="text-2xl xs:text-3xl font-semibold text-accentDarkPrimary mb-4">
-          Read the Full Article
-        </h2>
-        <p className="text-lg leading-relaxed text-dark/80 dark:text-light/80">
-          <PortableText value={data.block} />
-        </p>
-      </section>
-
-      {/* Comments Section */}
-      <section className="mt-12 bg-lightPink dark:bg-darkPink rounded-lg p-6">
-        <h3 className="text-xl font-semibold text-accentDarkPrimary mb-4">Leave a Comment</h3>
+      <p className="text-lg leading-normal text-dark/80 dark:text-light/80">
+        <PortableText value={data.block} />
         <CommentBox />
-      </section>
+      </p>
     </article>
   );
 }

@@ -4,7 +4,7 @@ import Hero from './Components/Hero';
 import { client } from "@/sanity/lib/client";
 
 const Homepage = async () => {
-  // Sanity query with correct field name (_updatedAt instead of _updateAt)
+  
   const query = `*[_type == "blog"] | order(_updatedAt desc){
     Title,
     Paragraph,
@@ -15,7 +15,7 @@ const Homepage = async () => {
   // Fetching the data from Sanity
   const dataFetch = await client.fetch(query);
 
-  console.log(dataFetch); // Check if the data is fetched correctly
+  // console.log(dataFetch); // Check if the data is fetched correctly
 
   return (
     <div className="homepage-container">

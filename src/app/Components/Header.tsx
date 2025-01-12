@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Header = () => {
+const Header =() => {
   return (
     <div>
       <header className="text-white body-font bg-gradient-to-r from-blue-500 via-pink-500 to-purple-500 shadow-lg">
@@ -13,13 +13,13 @@ const Header = () => {
             <a href="/" className="mr-5 text-lg hover:text-white transition duration-300 ease-in-out transform hover:scale-110">
               Home
             </a>
-            <a href="/about" className="mr-5 text-lg hover:text-white transition duration-300 ease-in-out transform hover:scale-110">
+            <a href="/About" className="mr-5 text-lg hover:text-white transition duration-300 ease-in-out transform hover:scale-110">
               About
             </a>
-            <a href="/blog" className="mr-5 text-lg hover:text-white transition duration-300 ease-in-out transform hover:scale-110">
+            <a href="blog/[slug]" className="mr-5 text-lg hover:text-white transition duration-300 ease-in-out transform hover:scale-110">
               Blog
             </a>
-            <a href="/contact" className="mr-5 text-lg hover:text-white transition duration-300 ease-in-out transform hover:scale-110">
+            <a href="/Contact" className="mr-5 text-lg hover:text-white transition duration-300 ease-in-out transform hover:scale-110">
               Contact
             </a>
           </nav>
